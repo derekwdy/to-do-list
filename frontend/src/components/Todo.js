@@ -47,9 +47,16 @@ class Todo extends Component {
       .catch((err) => console.log(err));
   };
 
-  updateTodoAction = (id, action) => {
+  handleKeyPress = (event, id) => {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    const { todos } = this.state;
+    const changedTodo = todos.find((todo) => todo._id == id);
+
     axios
-      .patch(`/api/to-dos/${id}`, { action: action })
+      .patch(`/api/to-dos/${id}`, { action: changedTodo.action })
       .then((res) => {
         if (res.data) {
           this.getTodos();
@@ -58,8 +65,16 @@ class Todo extends Component {
       .catch((err) => console.log(err));
   };
 
+  handleChange = (event, id) => {
+    const { todos } = this.state;
+    const changedTodo = todos.find((todo) => todo._id == id);
+    changedTodo["action"] = event.target.value;
+    this.setState(todos);
+  };
+
   render() {
-    let { todos } = this.state;
+    const { todos } = this.state;
+
     return (
       <div>
         <h1>To-do List</h1>
@@ -68,7 +83,8 @@ class Todo extends Component {
           todos={todos}
           deleteTodo={this.deleteTodo}
           toggleTodo={this.toggleTodo}
-          updateTodoAction={this.updateTodoAction}
+          handleKeyPress={this.handleKeyPress}
+          handleChange={this.handleChange}
         />
       </div>
     );

@@ -5,10 +5,16 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
+import TextField from "@mui/material/TextField";
 import React from "react";
 
-const ListTodo = ({ todos, deleteTodo, toggleTodo, updateTodoAction }) => {
+const ListTodo = ({
+  todos,
+  deleteTodo,
+  toggleTodo,
+  handleKeyPress,
+  handleChange,
+}) => {
   return (
     <List sx={{ bgcolor: "background.paper" }}>
       {todos && todos.length > 0 ? (
@@ -36,9 +42,11 @@ const ListTodo = ({ todos, deleteTodo, toggleTodo, updateTodoAction }) => {
                   <CheckIcon sx={{ color: "green" }} />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText
-                onClick={() => updateTodoAction(todo._id, "Text Updated")}
-                primary={todo.action}
+              <TextField
+                fullWidth
+                onChange={(event) => handleChange(event, todo._id)}
+                onKeyPress={(event) => handleKeyPress(event, todo._id)}
+                value={todo.action}
               />
             </ListItem>
           );
