@@ -1,19 +1,53 @@
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
 import React from "react";
-const ListTodo = ({ todos, deleteTodo }) => {
+
+const ListTodo = ({ todos, deleteTodo, toggleTodo, updateTodoAction }) => {
   return (
-    <ul>
+    <List sx={{ bgcolor: "background.paper" }}>
       {todos && todos.length > 0 ? (
         todos.map((todo) => {
           return (
-            <li key={todo._id} onClick={() => deleteTodo(todo._id)}>
-              {todo.action}
-            </li>
+            <ListItem
+              key={todo._id}
+              secondaryAction={
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => deleteTodo(todo._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
+            >
+              <ListItemAvatar>
+                <Avatar
+                  sx={{
+                    bgcolor: todo.isCompleted === true ? "lightGreen" : "",
+                  }}
+                  onClick={() => toggleTodo(todo._id, !todo.isCompleted)}
+                >
+                  <CheckIcon sx={{ color: "green" }} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                onClick={() => updateTodoAction(todo._id, "Text Updated")}
+                primary={todo.action}
+              />
+            </ListItem>
           );
         })
       ) : (
-        <li>No todo(s) left</li>
+        <ListItem>No todo(s) left</ListItem>
       )}
-    </ul>
+    </List>
   );
 };
+
 export default ListTodo;

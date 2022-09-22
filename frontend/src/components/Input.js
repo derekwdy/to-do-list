@@ -1,5 +1,7 @@
-import React, { Component } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
+import React, { Component } from "react";
 
 class Input extends Component {
   state = {
@@ -7,14 +9,15 @@ class Input extends Component {
   };
 
   addTodo = () => {
-    const task = { action: this.state.action };
+    const task = { action: this.state.action, isCompleted: false };
+
     if (task.action && task.action.length > 0) {
       axios
         .post("/api/to-dos", task)
         .then((res) => {
           if (res.data) {
             this.props.getTodos();
-            this.setState({ action: "" });
+            this.setState({ action: "", isCompleted: false });
           }
         })
         .catch((err) => console.log(err));
@@ -32,10 +35,21 @@ class Input extends Component {
   render() {
     let { action } = this.state;
     return (
-      <div>
-        <input type="text" onChange={this.handleChange} value={action} />
-        <button onClick={this.addTodo}>add todo</button>
-      </div>
+      <>
+        <div>
+          <TextField
+            required
+            label="To-do Item"
+            onChange={this.handleChange}
+            value={action}
+          />
+        </div>
+        <div>
+          <Button variant="contained" color="success" onClick={this.addTodo}>
+            ADD TO-DO
+          </Button>
+        </div>
+      </>
     );
   }
 }

@@ -1,12 +1,13 @@
 import React from "react";
-import Todo from "./components/Todo";
 import "./App.css";
+import Todo from "./components/Todo";
 
 const App = () => {
   return (
-    <div className="App">
-      <Todo />
-    </div>
+      <div className="App">
+        <Todo />
+      </div>
+
   );
 };
 
